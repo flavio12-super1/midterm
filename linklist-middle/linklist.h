@@ -6,10 +6,11 @@
 #include <ostream>
 #include <stdexcept>
 
-template <class T>
+template <typename T>
 struct Link
 {
     T data;
+
     Link *next;
 
     Link()
@@ -23,9 +24,19 @@ struct Link
         this->data = data;
         next = nullptr;
     }
+
+    // Link(const Link &other)
+    // {
+    //     Link *temp = other.front;
+    //     while (temp != nullptr)
+    //     {
+    //         append(temp->data);
+    //         temp = temp->next;
+    //     }
+    // }
 };
 
-template <class T>
+template <typename T>
 class LinkedList
 {
 protected:
@@ -33,11 +44,51 @@ public:
     Link<T> *front;
     Link<T> *back;
     int count;
+    //--------------------------------------------
+    // defining the constructor for
     LinkedList()
     {
         front = nullptr;
         count = 0;
     }
+    //--------------------------------------------
+    // Implement a deep copy constructor for the LinkedList class
+    LinkedList(const LinkedList<T> &other)
+    {
+        front = nullptr;
+        count = 0;
+
+        Link<T> *temp = other.front;
+        while (temp != nullptr)
+        {
+            append(temp->data);
+            temp = temp->next;
+        }
+    }
+    //--------------------------------------------
+    // Implement a deep copy assignment operator for the LinkedList class
+    LinkedList &operator=(const LinkedList<T> &other)
+    {
+        // Check for self-assignment
+        if (this == &other)
+        {
+            return *this;
+        }
+
+        // Copy data from the other object
+        count = other.count;
+
+        // Allocate new memory and copy contents
+        Link<T> *temp = other.front;
+        while (temp != nullptr)
+        {
+            append(temp->data);
+            temp = temp->next;
+        }
+
+        return *this;
+    }
+    //--------------------------------------------
 
     void append(T value)
     {
@@ -53,7 +104,7 @@ public:
             back = temp;
         }
         count++;
-        std::cout << value << std::endl;
+        // std::cout << value << std::endl;
     }
 
     void prepend(T value)
@@ -85,23 +136,24 @@ public:
             back = front;
         }
 
-        delete[] temp;
+        delete temp;
         count--;
     }
 
     void removeLast()
     {
-        if (!size())
+
+        if (front == nullptr)
             throw std::logic_error("nothing to remove");
 
         if (front->next == nullptr)
         {
-            // Special case: There is only one element in the list
             delete front;
             front = back = nullptr;
         }
         else
         {
+
             Link<T> *curr = front;
             while (curr->next->next != nullptr)
             {
@@ -110,12 +162,66 @@ public:
 
             Link<T> *temp = curr->next;
             curr->next = nullptr;
+
             back = curr;
 
-            delete[] temp;
+            delete temp;
+        }
+        count--;
+    }
+
+    void reverse()
+    {
+        Link<T> *curr = front;
+        Link<T> *prev = nullptr;
+        Link<T> *next = nullptr;
+
+        while (curr != nullptr)
+        {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
         }
 
-        count--;
+        front = prev;
+    }
+
+    void insert(int index, T value)
+    {
+        if (index < 0 || index > count)
+            throw std::logic_error("invalid index");
+
+        if (index == 0)
+        {
+            prepend(value);
+            return;
+        }
+
+        if (index == count)
+        {
+            append(value);
+            return;
+        }
+
+        Link<T> *curr = front;
+        for (int i = 0; i < index - 1; i++)
+        {
+            curr = curr->next;
+        }
+
+        Link<T> *temp = new Link<T>(value);
+        temp->next = curr->next;
+        curr->next = temp;
+        count++;
+    }
+
+    int
+    peak()
+    {
+        if (front == nullptr)
+            throw std::logic_error("nothing to peak");
+        return front->data;
     }
 
     int size()

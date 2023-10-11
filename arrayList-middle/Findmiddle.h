@@ -1,20 +1,18 @@
-#ifndef Findmiddle
-#define Findmiddle
+#ifndef FINDMIDDLE_H
+#define FINDMIDDLE_H
 
-int findMiddle(int arr[])
+#include <string> // Include the <string> header to use the 'string' type
+#include <iostream>
+#include <ostream>
+#include <stdexcept>
+
+using namespace std;
+int findMiddle(int *arr)
 {
     int i = 0;
-
-    while (true)
+    while (arr[i] != -1)
     {
-        if (arr[i] != -1)
-        {
-            i++;
-        }
-        else
-        {
-            break;
-        }
+        i++;
     }
     int middle = i / 2;
     return arr[middle];
