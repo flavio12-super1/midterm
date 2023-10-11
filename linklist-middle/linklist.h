@@ -76,7 +76,7 @@ public:
         }
 
         // Copy data from the other object
-        count = other.count;
+        count = 0;
 
         // Allocate new memory and copy contents
         Link<T> *temp = other.front;

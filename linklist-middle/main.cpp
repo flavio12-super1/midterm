@@ -28,10 +28,13 @@ int main()
     list3.insert(6, 6);
 
     cout << list << endl;
+    cout << list.count << endl;
 
     cout << list2 << endl;
+    cout << list2.count << endl;
 
     cout << list3 << endl;
+    cout << list3.count << endl;
 
     return 0;
 }
