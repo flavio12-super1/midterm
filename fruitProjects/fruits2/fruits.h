@@ -20,6 +20,9 @@ struct FruitType
 };
 
 template <class T>
+std::ostream &operator<<(std::ostream &os, const FruitType<T> &fruit);
+
+template <class T>
 class Fruit
 {
 private:
@@ -29,7 +32,7 @@ public:
     FruitType<T> oranges;
     Fruit() {}
 
-    void inflate(T *&arr, int &count, int &capacity)
+    void inflate(T *&arr, int &count, int &capacity, string arrayName)
     {
         if (count == capacity)
         {
@@ -39,48 +42,56 @@ public:
             {
                 temp[i] = arr[i];
             }
+
             delete[] arr;
             arr = temp;
+            std::cout << "old capacity: " << (capacity / 2) << " -> "
+                      << "new capacity: " << capacity << " for array: " << arrayName << std::endl;
         }
-        std::cout << "count: " << count << " capacity:" << capacity << std::endl;
     }
 
     void addFruit(T fruit)
     {
         if (fruit == "apple")
         {
-            inflate(apples.items, apples.count, apples.capacity);
-
-            apples.items[apples.count] = "apple";
+            inflate(apples.items, apples.count, apples.capacity, "apples");
+            string newFruit = "apple #" + to_string(apples.count + 1);
+            apples.items[apples.count] = newFruit;
             apples.count++;
         }
         else if (fruit == "banana")
         {
+            inflate(bananas.items, bananas.count, bananas.capacity, "bananas");
+            string newFruit = "banana #" + to_string(bananas.count + 1);
+            bananas.items[bananas.count] = newFruit;
             bananas.count++;
         }
         else if (fruit == "orange")
         {
+            inflate(oranges.items, oranges.count, oranges.capacity, "oranges");
+            string newFruit = "orange #" + to_string(oranges.count + 1);
+            oranges.items[oranges.count] = newFruit;
             oranges.count++;
         }
     }
+    friend std::ostream &operator<< <>(std::ostream &os, const FruitType<T> &fruit);
 };
-
-#endif
-
-// friend std::ostream &operator<< <>(std::ostream &os, const Fruit<T> &fruit);
 
 // Implement methods to interact with different fruit types
 
-// template <class T>
-// std::ostream &operator<<(std::ostream &os, const Fruit<T> &fruit)
-// {
-//     for (int i = 0; i < fruit.count; i++)
-//     {
-//         os << fruit.items[i];
-//         if (i < fruit.count - 1)
-//         {
-//             os << ", ";
-//         }
-//     }
-//     return os;
-// }
+template <class T>
+std::ostream &operator<<(std::ostream &os, const FruitType<T> &fruitType)
+{
+    os << "Fruit Items: ";
+    for (int i = 0; i < fruitType.count; i++)
+    {
+        os << fruitType.items[i];
+        if (i < fruitType.count - 1)
+        {
+            os << ", ";
+        }
+    }
+    return os;
+}
+
+#endif
