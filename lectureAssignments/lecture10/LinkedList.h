@@ -133,6 +133,10 @@ public:
 
     T peek()
     {
+        if (front == nullptr)
+        {
+            throw std::logic_error("nothing to peek at")
+        }
         T value = front->data;
         return value;
     }

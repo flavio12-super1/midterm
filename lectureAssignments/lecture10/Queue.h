@@ -5,13 +5,48 @@
 #include <ostream>
 #include <stdexcept>
 
+#include "LinkedList.h"
+
 #include <string>
 
 using namespace std;
 
-string Queue()
+template <class T>
+class Queue
 {
-    return "Queue";
+private:
+public:
+    LinkedList<T> elements;
+    void enqueue(T value)
+    {
+        elements.append(value);
+    }
+    T dequeue()
+    {
+        return elements.removeFirst();
+    }
+    T peek()
+    {
+        return elements.peek();
+    }
+    int length() const
+    {
+        return elements.size();
+    }
+    bool isEmpty()
+    {
+        return elements.isEmpty();
+    }
+
+    template <class U>
+    friend std::ostream &operator<<(std::ostream &os, const Queue<U> &queue);
+};
+
+template <class T>
+std::ostream &operator<<(std::ostream &os, const Queue<T> &queue)
+{
+    os << queue.elements;
+    return os;
 }
 
 #endif
