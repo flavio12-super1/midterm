@@ -21,6 +21,48 @@ public:
         arr = new T[capacity];
     }
 
+    ArrayList(const ArrayList &other)
+    {
+        capacity = other.capacity;
+        count = other.count;
+        arr = new T[capacity];
+        for (int i = 0; i < count; i++)
+        {
+            arr[i] = other.arr[i];
+        }
+    }
+
+    ArrayList &operator=(const ArrayList &other)
+    {
+        if (this == &other)
+        {
+            return *this; // Self-assignment, no need to do anything.
+        }
+
+        // Release the existing memory
+        delete[] arr;
+
+        capacity = other.capacity;
+        count = other.count;
+        arr = new T[capacity];
+
+        for (int i = 0; i < count; i++)
+        {
+            arr[i] = other.arr[i];
+        }
+
+        return *this;
+    }
+
+    T &operator[](int index)
+    {
+        if (index < 0 || index >= count)
+        {
+            throw std::logic_error("Array index out of bounds.");
+        }
+        return arr[index];
+    }
+
     ~ArrayList()
     {
         delete[] arr;
@@ -113,6 +155,40 @@ public:
         deflate();
         return result;
     }
+
+    T peek()
+    {
+        if (count == 0)
+            throw std::logic_error("Can not peek an empty list.");
+        return arr[0];
+    }
+
+    int size() const
+    {
+        return count;
+    }
+
+    int getCapacity() const
+    {
+        return capacity;
+    }
+
+    template <class U>
+    friend std::ostream &operator<<(std::ostream &os, const ArrayList<U> &container);
 };
+
+template <class T>
+std::ostream &operator<<(std::ostream &os, const ArrayList<T> &container)
+{
+    for (int i = 0; i < container.count; i++)
+    {
+        os << container.arr[i];
+        if (i < container.count - 1)
+        {
+            os << ", ";
+        }
+    }
+    return os;
+}
 
 #endif
