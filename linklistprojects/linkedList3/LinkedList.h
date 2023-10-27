@@ -178,6 +178,92 @@ public:
         return *temp;
     }
 
+    LinkedList &operator-(LinkedList &other)
+    {
+        LinkedList<T> *temp = new LinkedList<T>();
+        Link<T> *curr = front;
+
+        while (curr != nullptr)
+        {
+            bool remove = false;
+            cout << curr->data;
+            cout << "[ ";
+            Link<T> *curr2 = other.front;
+            while (curr2 != nullptr)
+            {
+                // cout << curr2->data << ",";
+                cout << curr->data << " ?= " << curr2->data << ", ";
+                if (curr->data == curr2->data)
+                {
+                    cout << " -> yes, ";
+                    remove = true;
+
+                    // Link<T> *oldCurr = curr;
+                    // Link<T> *currPrev = curr->prev;
+                    // Link<T> *currNext = curr->next;
+                    // currPrev->next = currNext;
+                    // currNext->prev = currPrev;
+
+                    // Link<T> *oldCurr2 = curr2;
+                    // Link<T> *currPrev2 = curr2->prev;
+                    // Link<T> *currNext2 = curr2->next;
+                    // currPrev2->next = currNext2;
+                    // currNext2->prev = currPrev2;
+
+                    // arrSize--;
+                    // other.arrSize--;
+                    // cout << curr->data << " == " << curr2->data << endl;
+                }
+                else
+                {
+                    cout << " -> no, ";
+                    // temp->append(arrSize);
+                }
+                curr2 = curr2->next;
+            }
+            cout << " ]" << endl;
+            if (!remove)
+            {
+                temp->append(curr->data);
+            }
+            // cout << curr->data << endl;
+            curr = curr->next;
+        }
+
+        // for (int i = count; i < count; i++)
+        // {
+        //     if (curr != nullptr)
+        //     {
+        //         for (int j = other.count; j < other.count; j++)
+        //         {
+        //             if (curr2 != nullptr)
+        //             {
+
+        //                 curr2 = curr2->next;
+        //             }
+        //         }
+        //     }
+        //     curr = curr->next;
+        // }
+
+        // while (curr != nullptr)
+        // {
+        //     search()?
+        //         temp->append(curr->data);
+        //     curr = curr->next;
+        // }
+        // for (int i = 0; i<other.count;i++){
+        //     if (curr != nullptr){
+        //         if (!search(curr->data)){
+
+        //         }
+        //     }
+        //     curr= curr->next;
+        // }
+
+        return *temp;
+    }
+
     int &operator[](int index)
     {
         if (index < 0 || index >= arrSize)

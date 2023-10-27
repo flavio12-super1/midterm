@@ -49,6 +49,15 @@ int main()
 
     temp = list0 + list1;
 
+    LinkedList<int> newTemp(temp);
+    newTemp.append(7);
+    cout << "-------------------------------" << endl;
+    LinkedList<int> temp2 = newTemp - list0;
+    cout << "temp2 = " << endl;
+    cout << temp2 << endl;
+
+    cout << "-------------------------------" << endl;
+
     cout << temp << endl;
 
     Link<int> link1(1);
